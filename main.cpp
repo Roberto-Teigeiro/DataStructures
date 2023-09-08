@@ -10,6 +10,7 @@ public:
     {
         data = 0;
         next = NULL;
+        
     }
     Node(int data)
     {
@@ -19,6 +20,7 @@ public:
 };
   
   class Stack{
+    private:
     Node* head;
     public:
     Stack(){ head=NULL; }
@@ -26,7 +28,9 @@ public:
     void insertNode(int val);
     void pop();
     int peek();
-
+    Node* getHead() const {
+        return head;
+    }
   };
 
 void Stack::pop(){
@@ -77,10 +81,35 @@ int Stack::peek(){
 };
 
 
+void del(int index, const Stack& stack){
+    int count=0;
+    Node* temp= stack.getHead();
+    Node* beforetemp;
+       while(temp->next!=NULL){
+            beforetemp=temp;
+            temp=temp->next;
+            count++;
+            if (count==index){
+                temp=beforetemp->next;
+                beforetemp->next=temp->next;
+               
+            }
+        }
+};
+
+void create(const Stack& stack){
+
+};
 int main(){
 Stack stack;
-
-
+stack.insertNode(1);
+stack.insertNode(4);
+stack.insertNode(3);
+stack.insertNode(5);
+stack.insertNode(6);
+stack.printlinkedlist();
+del(3, stack);
+stack.printlinkedlist();
 
 
 }
