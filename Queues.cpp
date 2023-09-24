@@ -41,6 +41,12 @@ void Queue::enQueue(int val){
     };
         Node* temp2=NULL;
         Node* temp=Front;
+        if(nuevonodo->data < Front->data){
+            Front=nuevonodo;
+            nuevonodo->next=temp;
+            return;
+        }
+
         while(temp->next!=NULL){
             if(nuevonodo->data < temp->next->data){
                 temp2=temp->next;
@@ -52,7 +58,6 @@ void Queue::enQueue(int val){
         }
         temp->next=nuevonodo;
     };
-
 void Queue::printQueue(){
     Node* temp = Front;
     if (Front == NULL) {
