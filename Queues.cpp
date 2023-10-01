@@ -68,6 +68,7 @@ void Queue::enQueue(int val){
         Rear=nuevonodo;
     };
 void Queue::mindeQueue(){
+    
     Node* temp=Front;
     cout<<"Se ha desencolado el: "<<Front->data<<endl;
     Front=Front->next;
