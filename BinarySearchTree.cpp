@@ -24,10 +24,11 @@ class BinarySearchTree{
     void PostOrder(Node* root);
     void PostOrder();
     void LevelByLevel();
-    int height(int height);
+    int height(Node* node);
     void ancestors();
     int WhatLevelAmI();
     void PreOrder();
+    int height();
     void Insertion(int value);
     Node* Insertion(Node* root, int value);
 };
@@ -89,12 +90,19 @@ void BinarySearchTree::PostOrder(Node* root){
 void BinarySearchTree::PostOrder(){
     PostOrder(this->root);
 }
-int BinarySearchTree::height(int height){
+int BinarySearchTree::height(Node* node){
+if (node==nullptr){
+return 0;
+}
 
-return 1;
+return 1+max(height(node->left),height(node->right));
+}
 
+int BinarySearchTree::height(){
+return height(this->root);
 
 }
+
 
 
 
@@ -112,4 +120,5 @@ arbol.Insertion(46);
 arbol.Insertion(1);
 arbol.PreOrder();
 
+cout<<"La altura es:"<< arbol.height();
 }
