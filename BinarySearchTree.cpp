@@ -9,7 +9,7 @@ class Node{
     Node* prev;
 
     Node(){}
-    Node(int data){this->left=NULL; this->right=NULL; this->data=data; this->prev=NULL;}
+    Node(int data,Node* prev){this->left=NULL; this->right=NULL; this->data=data; this->prev=prev;}
 };
 
 
@@ -17,32 +17,33 @@ class BinarySearchTree{
 
     Node* root;
     public:
-    BinarySearchTree(int value){this->root=new Node(value);};
+    BinarySearchTree(int value){this->root=new Node(value,nullptr);};
     void PreOrder(Node* root);
     void InOrder();
     void InOrder(Node* root);
     void PostOrder(Node* root);
     void PostOrder();
-    void LevelByLevel();
     int height(Node* node);
-    void ancestors();
-    int WhatLevelAmI();
+    void ancestors(int key);
+    int WhatLevelAmI(Node* node, int key,int count);
     void PreOrder();
     int height();
+    Node* BinarySearch(Node* node, int key);
     void Insertion(int value);
+    int WhatLevelAmI(int key);
     Node* Insertion(Node* root, int value);
 };
 
 Node* BinarySearchTree::Insertion(Node* root, int value){
     if (root == nullptr) {
-        root = new Node(value);
+        root = new Node(value,nullptr);
         return root;
     }
     if(value <= root->data){
-        root->left = (root->left==nullptr) ? new Node(value) : Insertion(root->left, value);
+        root->left = (root->left==nullptr) ? new Node(value,root) : Insertion(root->left, value);
     }
     else{
-        root->right = (root->right==nullptr) ? new Node(value) : Insertion(root->right, value);
+        root->right = (root->right==nullptr) ? new Node(value,root) : Insertion(root->right, value);
     }
     return root;
 }
@@ -103,8 +104,55 @@ return height(this->root);
 
 }
 
+void BinarySearchTree::ancestors(int key){
+    cout<<endl<<"Los valores de ancestros son (desde actual->Raiz):";
+    Node* temp=BinarySearch(this->root,key);
+    while(temp!=nullptr){
+        cout<<endl<<temp->data;
+        temp=temp->prev;
+    }
+}
+
+Node* BinarySearchTree::BinarySearch(Node* node, int key){
+if(node==nullptr){
+    cout<<"No se encontro dicho elemento: "<<endl;
+    return NULL;
+}
+
+if(key==node->data){
+return node;
+}
+
+if(key>node->data){
+BinarySearch(node->right,key);
+}
+else{
+BinarySearch(node->left,key);
+};
+}
+
+int BinarySearchTree::WhatLevelAmI(Node* node,int key,int count){
+
+if(node==nullptr){
+    return -1;
+}
+
+if(key==node->data){
+return count;
+}
+
+if(key>node->data){
+WhatLevelAmI(node->right,key,++count);
+}
+else{
+WhatLevelAmI(node->left,key,++count);
+};
 
 
+}
+int BinarySearchTree::WhatLevelAmI(int key){
+    return WhatLevelAmI(this->root,key,1);
+}
 
 int main(){
 BinarySearchTree arbol(1);
@@ -119,6 +167,8 @@ arbol.Insertion(63);
 arbol.Insertion(46);
 arbol.Insertion(1);
 arbol.PreOrder();
+arbol.WhatLevelAmI(5);
 
-cout<<"La altura es:"<< arbol.height();
+cout<<"La altura es:"<< arbol.WhatLevelAmI(3);
+arbol.ancestors(17);
 }
